@@ -216,54 +216,6 @@ namespace Robo
      */
     //% blockId=robot_setLegPartAngle
     //% block="Leg|%leg|Part|%part|to|%angle|"
-    //% leg.defl = Legs.FRONT_LEFT
-    //% weight=100 blockGap=15
-    export function setLegPartAngle(leg: Legs, part: Parts, angle: Angles): void {
-        if (initalised == false) {
-            I2cInit()
-        }
-        switch (leg) {
-	    case Legs.FRONT_LEFT:
-		if (part == Parts.UPPER) {
-		    setServo(Servos.Servo6, angle)
-		}
-	        else {
-		    setServo(Servos.Servo5, angle)
-		}
-		break
-	    case Legs.FRONT_RIGHT:
-		if (part == Parts.UPPER) {
-		    setServo(Servos.Servo7, angle)
-		}
-	        else {
-		    setServo(Servos.Servo8, angle)
-		}
-		break
-	    case Legs.BACK_LEFT:
-		if (part == Parts.UPPER) {
-		    setServo(Servos.Servo2, angle)
-		}
-	        else {
-		    setServo(Servos.Servo1, angle)
-		}
-		break
-	    case Legs.BACK_RIGHT:
-		if (part == Parts.UPPER) {
-		    setServo(Servos.Servo3, angle)
-		}
-	        else {
-		    setServo(Servos.Servo4, angle)
-		}
-		break
-	}
-    }
-	
-    /**
-     * Sets specified robot part to a requested angle.
-     */
-    //% blockId=robot_setLegPartAngle
-    //% block="Leg|%leg|Part|%part|to|%angle|"
-    //% leg.defl = Legs.FRONT_RIGHT
     //% weight=100 blockGap=15
     export function setLegPartAngle(leg: Legs, part: Parts, angle: Angles): void {
         if (initalised == false) {
