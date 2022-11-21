@@ -216,8 +216,9 @@ namespace Robo
      */
     //% blockId=robot_setLegPartAngle
     //% block="Leg|%leg|Part|%part|to|%angle|"
+    //% leg.defl = Legs.FRONT_LEFT
     //% weight=100 blockGap=15
-    export function setLegPartAngle(leg = Legs.FRONT_LEFT: Legs, part: Parts, angle: Angles): void {
+    export function setLegPartAngle(leg: Legs, part: Parts, angle: Angles): void {
         if (initalised == false) {
             I2cInit()
         }
@@ -262,8 +263,9 @@ namespace Robo
      */
     //% blockId=robot_setLegPartAngle
     //% block="Leg|%leg|Part|%part|to|%angle|"
+    //% leg.defl = Legs.FRONT_RIGHT
     //% weight=100 blockGap=15
-    export function setLegPartAngle(leg = Legs.FRONT_RIGHT: Legs, part: Parts, angle: Angles): void {
+    export function setLegPartAngle(leg: Legs, part: Parts, angle: Angles): void {
         if (initalised == false) {
             I2cInit()
         }
