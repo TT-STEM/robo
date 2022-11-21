@@ -1,5 +1,5 @@
 /**
- * Motor Control for HC Motor Users.
+ * Servo Control for RB Servo Users.
  */
 //% weight=11 color=#DF6721 icon="\uf188" block="Robot Control"
 //% groups='["Servos", ]'
@@ -37,26 +37,40 @@ namespace Robo
         Servo8 = 0x24
     }
 
-    // List of motors for the motor blocks to use. These represent register offsets in the PCA9865 driver IC.
-    export enum Motors {
-        //% block="1"
-        Motor1 = 0x28,
-        //% block="2"
-        Motor2 = 0x30,
-        //% block="3"
-        Motor3 = 0x38,
-        //% block="4"
-        Motor4 = 0x40
+    // Leg Choices.
+    export enum LegChoice {
+        //% block="Front Left"
+        FrontLeft,
+	//% block="Front Right"
+        FrontRight,
+	//% block="Back Left"
+        BackLeft,
+	//% block="Back Right"
+        BackRight
     }
-
-    // Directions the motors can rotate.
-    export enum MotorDirection {
-        //% block="\u2795"
-        PLUS,
-	//% block="\u2796"
-        MINUS
+	
+    // Position Choices.
+    export enum LegChoice {
+        //% block="30°"
+        Deg30,
+	//% block="45°"
+        Deg45,
+	//% block="60°"
+        Deg60,
+	//% block="75°"
+        Deg75,
+	//% block="90°"
+	Deg90,
+	//% block="105°"
+	Deg105,
+	//% block="120°"
+	Deg120,
+	//% block="135°"
+	Deg135,
+	//% block="150°"
+	Deg150
     }
-
+	
     // The Robotics board can be configured to use different I2C addresses, these are all listed here.
     // Board1 is the default value (set as the CHIP_ADDRESS)
     export enum BoardAddresses{
@@ -84,7 +98,7 @@ namespace Robo
 	buf[1] = 0x85 //50Hz
 	pins.i2cWriteBuffer(chipAddress, buf, false)
 
-	//Block write via the all leds register to turn off all servo and motor outputs
+	//Block write via the all leds register to turn off all servo outputs
 	buf[0] = 0xFA
 	buf[1] = 0x00
 	pins.i2cWriteBuffer(chipAddress, buf, false)
@@ -110,8 +124,9 @@ namespace Robo
     /**
      * Sets the requested servo to the requested angle.
      */
+    //% subcategory=Advanced
     //% group=Servos
-    //% blockId=motor_setServo
+    //% blockId=robot_setServo
     //% block="Servo|%Servo|degree|%degrees|"
     //% weight=100 blockGap=15
     //% degrees.min=0 degrees.max=180
@@ -142,180 +157,15 @@ namespace Robo
         }
         pins.i2cWriteBuffer(chipAddress, buf, false)
     }
-
-    /**
-     * Sets the requested motor running in chosen direction at a set speed.
-     */
-    //% group=Motors
-    //% blockId=motor_startMotor
-    //% block="Motor|%motor|direction|%dir|speed|%speed|"
-    //% weight=100 blockGap=15
-    //% speed.min=0 speed.max=100
-    export function startMotor(motor: Motors, dir: MotorDirection, speed: number): void {
-        if (initalised == false) {
-            I2cInit()
-        }
-
-        /*convert 0-100 to 0-4095 (approx) We wont worry about the last 95 to make life simpler*/
-        let outputVal = Math.clamp(0, 100, speed) * 40;
-
-        let buf = pins.createBuffer(2)
-        let highByte = false
-
-        switch (dir) {
-            case MotorDirection.PLUS:
-		if (motor == Motors.Motor1 || motor == Motors.Motor3){
-		    if (outputVal > 0xFF) {
-                	highByte = true
-                    }
-
-                    buf[0] = motor
-                    buf[1] = outputVal
-                    pins.i2cWriteBuffer(chipAddress, buf, false)
-
-                    if (highByte) {
-                        buf[0] = motor + 1
-                        buf[1] = outputVal/256
-                    }
-                    else {
-                        buf[0] = motor + 1
-                        buf[1] = 0x00
-                    }
-                    pins.i2cWriteBuffer(chipAddress, buf, false)
-
-                    buf[0] = motor + 4
-                    buf[1] = 0x00
-                    pins.i2cWriteBuffer(chipAddress, buf, false)
-                    buf[0] = motor + 5
-                    buf[1] = 0x00
-                    pins.i2cWriteBuffer(chipAddress, buf, false)
-		}
-		else{
-		    if (outputVal > 0xFF) {
-                	highByte = true
-                    }
-                    buf[0] = motor + 4
-                    buf[1] = outputVal
-                    pins.i2cWriteBuffer(chipAddress, buf, false)
-                    if (highByte) {
-                        buf[0] = motor + 5
-                        buf[1] = outputVal/256
-                    }
-                    else {
-                        buf[0] = motor + 5
-                        buf[1] = 0x00
-                    }
-                    pins.i2cWriteBuffer(chipAddress, buf, false)
-
-                    buf[0] = motor
-                    buf[1] = 0x00
-                    pins.i2cWriteBuffer(chipAddress, buf, false)
-                    buf[0] = motor + 1
-                    buf[1] = 0x00
-                    pins.i2cWriteBuffer(chipAddress, buf, false)
-		}                
-                break
-            case MotorDirection.MINUS:
-                if (motor == Motors.Motor1 || motor == Motors.Motor3){
-		    if (outputVal > 0xFF) {
-                	highByte = true
-                    }
-                    buf[0] = motor + 4
-                    buf[1] = outputVal
-                    pins.i2cWriteBuffer(chipAddress, buf, false)
-                    if (highByte) {
-                        buf[0] = motor + 5
-                        buf[1] = outputVal/256
-                    }
-                    else {
-                        buf[0] = motor + 5
-                        buf[1] = 0x00
-                    }
-                    pins.i2cWriteBuffer(chipAddress, buf, false)
-
-                    buf[0] = motor
-                    buf[1] = 0x00
-                    pins.i2cWriteBuffer(chipAddress, buf, false)
-                    buf[0] = motor + 1
-                    buf[1] = 0x00
-                    pins.i2cWriteBuffer(chipAddress, buf, false)
-		}
-		else{
-		    if (outputVal > 0xFF) {
-                	highByte = true
-                    }
-
-                    buf[0] = motor
-                    buf[1] = outputVal
-                    pins.i2cWriteBuffer(chipAddress, buf, false)
-
-                    if (highByte) {
-                        buf[0] = motor + 1
-                        buf[1] = outputVal/256
-                    }
-                    else {
-                        buf[0] = motor + 1
-                        buf[1] = 0x00
-                    }
-                    pins.i2cWriteBuffer(chipAddress, buf, false)
-
-                    buf[0] = motor + 4
-                    buf[1] = 0x00
-                    pins.i2cWriteBuffer(chipAddress, buf, false)
-                    buf[0] = motor + 5
-                    buf[1] = 0x00
-                    pins.i2cWriteBuffer(chipAddress, buf, false)
-		}                
-                break
-        }            
-    }   
-
-    /**
-     * Turns off specified motor.     
-     */
-    //% group=Motors
-    //% blockId=motor_stopMotor
-    //% weight=99 blockGap=15
-    //%block="Motor|%motor|Stop"
-    export function stopMotor(motor: Motors): void {
-
-    	let buf = pins.createBuffer(2)
-
-        buf[0] = motor
-        buf[1] = 0x00
-        pins.i2cWriteBuffer(chipAddress, buf, false)
-        buf[0] = motor + 1
-        buf[1] = 0x00
-        pins.i2cWriteBuffer(chipAddress, buf, false)
-        buf[0] = motor + 4
-        buf[1] = 0x00
-        pins.i2cWriteBuffer(chipAddress, buf, false)
-        buf[0] = motor + 5
-        buf[1] = 0x00
-        pins.i2cWriteBuffer(chipAddress, buf, false)
-    }
-
-    /**
-     * Turns off all motors.
-     */
-    //% group=Motors
-    //% blockId=motor_stopAllMotors
-    //% weight=98 blockGap=15
-    //%block="Motor Stop All"
-    export function stopAllMotors(): void {       
-        stopMotor(Motors.Motor1)
-        stopMotor(Motors.Motor2)
-        stopMotor(Motors.Motor3)
-        stopMotor(Motors.Motor4)
-    }
     
     /**
      * Turns off specified servo.     
      */
+    //% subcategory=Advanced
     //% group=Servos
-    //% blockId=motor_stopServo
+    //% blockId=robot_stopServo
     //% weight=99 blockGap=15
-    //%block="Servo|%servo|Stop"
+    //%block="Servo|%servo|Release"
     export function stopServo(servo: Servos): void {
 	let buf = pins.createBuffer(2)
         
@@ -330,10 +180,11 @@ namespace Robo
     /**
      * Turns off all servos.
      */
+    //% subcategory=Advanced
     //% group=Servos
-    //% blockId=motor_stopAllServos
+    //% blockId=robot_stopAllServos
     //% weight=98 blockGap=15
-    //%block="Servo Stop All"
+    //%block="Servo Release All"
     export function stopAllServos(): void {
         let buf = pins.createBuffer(2)
         let servoOffCount = 0
@@ -351,5 +202,41 @@ namespace Robo
             servoRegCount += 4
             servoOffCount += 1
         }
+    }
+
+    /**
+     * Sets the requested robot part to the requested angle.
+     */
+    //% group=Robot Control
+    //% blockId=robot_setPartAngle
+    //% block="Servo|%Servo|degree|%degrees|"
+    //% weight=100 blockGap=15
+    //% degrees.min=0 degrees.max=180
+    export function setServo(servo: Servos, degrees: number): void {
+        if (initalised == false) {
+            I2cInit()
+        }
+        let buf = pins.createBuffer(2)
+        let highByte = false
+        let deg100 = degrees * 100
+        let pwmVal100 = deg100 * SERVO_MULTIPLIER
+        let pwmVal = pwmVal100 / 10000
+        pwmVal = Math.floor(pwmVal)
+        pwmVal = pwmVal + SERVO_ZERO_OFFSET
+        if (pwmVal > 0xFF) {
+            highByte = true
+        }
+        buf[0] = servo
+        buf[1] = pwmVal
+        pins.i2cWriteBuffer(chipAddress, buf, false)
+        if (highByte) {
+            buf[0] = servo + 1
+            buf[1] = 0x01
+        }
+        else {
+            buf[0] = servo + 1
+            buf[1] = 0x00
+        }
+        pins.i2cWriteBuffer(chipAddress, buf, false)
     }
 }
