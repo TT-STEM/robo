@@ -129,7 +129,7 @@ namespace Robo
     }
 	
     /**
-     * Sets the requested servo to the requested position.
+     * Sets specified servo to a requested position.
      */
     //% subcategory=more
     //% group=Servos
@@ -212,13 +212,58 @@ namespace Robo
     }
 
     /**
-     * Sets the requested robot part to the requested angle.
+     * Sets specified robot part to a requested angle.
      */
-    //% group=Robot Control
     //% blockId=robot_setLegPartAngle
-    //% block="Leg|%leg|Part|%part|Angle|%angle|"
+    //% block="Leg|%leg|Part|%part|to|%angle|"
     //% weight=100 blockGap=15
-    export function setLegPartAngle(leg: Legs, part: Parts, angle: Angles): void {
+    export function setLegPartAngle(leg = Legs.FRONT_LEFT: Legs, part: Parts, angle: Angles): void {
+        if (initalised == false) {
+            I2cInit()
+        }
+        switch (leg) {
+	    case Legs.FRONT_LEFT:
+		if (part == Parts.UPPER) {
+		    setServo(Servos.Servo6, angle)
+		}
+	        else {
+		    setServo(Servos.Servo5, angle)
+		}
+		break
+	    case Legs.FRONT_RIGHT:
+		if (part == Parts.UPPER) {
+		    setServo(Servos.Servo7, angle)
+		}
+	        else {
+		    setServo(Servos.Servo8, angle)
+		}
+		break
+	    case Legs.BACK_LEFT:
+		if (part == Parts.UPPER) {
+		    setServo(Servos.Servo2, angle)
+		}
+	        else {
+		    setServo(Servos.Servo1, angle)
+		}
+		break
+	    case Legs.BACK_RIGHT:
+		if (part == Parts.UPPER) {
+		    setServo(Servos.Servo3, angle)
+		}
+	        else {
+		    setServo(Servos.Servo4, angle)
+		}
+		break
+	}
+    }
+	
+    /**
+     * Sets specified robot part to a requested angle.
+     */
+    //% blockId=robot_setLegPartAngle
+    //% block="Leg|%leg|Part|%part|to|%angle|"
+    //% weight=100 blockGap=15
+    export function setLegPartAngle(leg = Legs.FRONT_RIGHT: Legs, part: Parts, angle: Angles): void {
         if (initalised == false) {
             I2cInit()
         }
