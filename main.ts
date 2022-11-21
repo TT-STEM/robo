@@ -1,8 +1,7 @@
 /**
- * Servo Control for RB Servo Users.
+ * Servo Control for LR Servo Users.
  */
-//% weight=11 color=#DF6721 icon="\uf188" block="Robot Control"
-//% groups='["Servos", ]'
+//% weight=11 color=#DF6721 icon="\uf188" block="LR Servo"
 namespace Robo
 {	
     //Constants 
@@ -132,7 +131,7 @@ namespace Robo
     /**
      * Sets the requested servo to the requested position.
      */
-    //% subcategory=Advanced
+    //% subcategory=more
     //% group=Servos
     //% blockId=robot_setServo
     //% block="Servo|%Servo|degree|%degrees|"
@@ -169,7 +168,7 @@ namespace Robo
     /**
      * Turns off specified servo.     
      */
-    //% subcategory=Advanced
+    //% subcategory=more
     //% group=Servos
     //% blockId=robot_stopServo
     //% weight=99 blockGap=15
@@ -188,7 +187,7 @@ namespace Robo
     /**
      * Turns off all servos.
      */
-    //% subcategory=Advanced
+    //% subcategory=more
     //% group=Servos
     //% blockId=robot_stopAllServos
     //% weight=98 blockGap=15
