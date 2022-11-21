@@ -38,37 +38,45 @@ namespace Robo
     }
 
     // Leg Choices.
-    export enum LegChoice {
+    export enum Legs {
         //% block="Front Left"
-        FrontLeft,
+        FRONT_LEFT,
 	//% block="Front Right"
-        FrontRight,
+        FRONT_RIGHT,
 	//% block="Back Left"
-        BackLeft,
+        BACK_LEFT,
 	//% block="Back Right"
-        BackRight
+        BACK_RIGHT
     }
 	
-    // Position Choices.
-    export enum LegChoice {
+    // Leg Part Choices.
+    export enum Parts {
+        //% block="Upper"
+        UPPER,
+	//% block="Lower"
+        LOWER
+    }
+	
+    // Angle Choices.
+    export enum Angles {
         //% block="30°"
-        Deg30,
+        DEG30 = 30,
 	//% block="45°"
-        Deg45,
+        DEG45 = 45,
 	//% block="60°"
-        Deg60,
+        DEG60 = 60,
 	//% block="75°"
-        Deg75,
+        DEG75 = 75,
 	//% block="90°"
-	Deg90,
+	DEG90 = 90,
 	//% block="105°"
-	Deg105,
+	DEG105 = 105,
 	//% block="120°"
-	Deg120,
+	DEG120 = 120,
 	//% block="135°"
-	Deg135,
+	DEG135 = 135,
 	//% block="150°"
-	Deg150
+	DEG150 = 150
     }
 	
     // The Robotics board can be configured to use different I2C addresses, these are all listed here.
@@ -122,7 +130,7 @@ namespace Robo
     }
 	
     /**
-     * Sets the requested servo to the requested angle.
+     * Sets the requested servo to the requested position.
      */
     //% subcategory=Advanced
     //% group=Servos
@@ -208,35 +216,46 @@ namespace Robo
      * Sets the requested robot part to the requested angle.
      */
     //% group=Robot Control
-    //% blockId=robot_setPartAngle
-    //% block="Servo|%Servo|degree|%degrees|"
+    //% blockId=robot_setLegPartAngle
+    //% block="Leg|%leg|Part|%part|Angle|%angle|"
     //% weight=100 blockGap=15
-    //% degrees.min=0 degrees.max=180
-    export function setServo(servo: Servos, degrees: number): void {
+    export function setLegPartAngle(leg: Legs, part: Parts, angle: Angles): void {
         if (initalised == false) {
             I2cInit()
         }
-        let buf = pins.createBuffer(2)
-        let highByte = false
-        let deg100 = degrees * 100
-        let pwmVal100 = deg100 * SERVO_MULTIPLIER
-        let pwmVal = pwmVal100 / 10000
-        pwmVal = Math.floor(pwmVal)
-        pwmVal = pwmVal + SERVO_ZERO_OFFSET
-        if (pwmVal > 0xFF) {
-            highByte = true
-        }
-        buf[0] = servo
-        buf[1] = pwmVal
-        pins.i2cWriteBuffer(chipAddress, buf, false)
-        if (highByte) {
-            buf[0] = servo + 1
-            buf[1] = 0x01
-        }
-        else {
-            buf[0] = servo + 1
-            buf[1] = 0x00
-        }
-        pins.i2cWriteBuffer(chipAddress, buf, false)
+        switch (leg) {
+	    case Legs.FRONT_LEFT:
+		if (part == Parts.UPPER) {
+		    setServo(Servos.Servo6, angle)
+		}
+	        else {
+		    setServo(Servos.Servo5, angle)
+		}
+		break
+	    case Legs.FRONT_RIGHT:
+		if (part == Parts.UPPER) {
+		    setServo(Servos.Servo7, angle)
+		}
+	        else {
+		    setServo(Servos.Servo8, angle)
+		}
+		break
+	    case Legs.BACK_LEFT:
+		if (part == Parts.UPPER) {
+		    setServo(Servos.Servo2, angle)
+		}
+	        else {
+		    setServo(Servos.Servo1, angle)
+		}
+		break
+	    case Legs.BACK_RIGHT:
+		if (part == Parts.UPPER) {
+		    setServo(Servos.Servo3, angle)
+		}
+	        else {
+		    setServo(Servos.Servo4, angle)
+		}
+		break
+	}
     }
 }
