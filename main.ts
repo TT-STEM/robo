@@ -1,7 +1,8 @@
 /**
- * Servo Control for LR Servo Users.
+ * Control for Legged Robot Users.
  */
-//% weight=11 color=#DF6721 icon="\uf188" block="LR Servo"
+//% weight=11 color=#DF6721 icon="\uf188" block="Legged Robot"
+//% groups='["Legs", "Actions", "Servos"]'
 namespace Robo
 {	
     //Constants 
@@ -214,6 +215,7 @@ namespace Robo
     /**
      * Sets specified robot part to a requested angle.
      */
+    //% group=Legs
     //% blockId=robot_setLegPartAngle
     //% block="Leg|%leg|Part|%part|to|%angle|"
     //% weight=100 blockGap=15
@@ -255,5 +257,138 @@ namespace Robo
 		}
 		break
 	}
+    }
+    /**
+     * Make robot standby.
+     */
+    //% group=Actions
+    //% blockId=robot_standby
+    //% block="Standby"
+    //% weight=100 blockGap=15
+    export function standby(): void {
+        if (initalised == false) {
+            I2cInit()
+        }
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+    }
+	
+    /**
+     * Make robot step forawrd once.
+     */
+    //% group=Actions
+    //% blockId=robot_stepForwardOnce
+    //% block="Step Forward Once"
+    //% weight=99 blockGap=15
+    export function stepForwardOnce(): void {
+        if (initalised == false) {
+            I2cInit()
+        }
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG150)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG150)
+        basic.pause(100)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+        basic.pause(100)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG150)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG150)
+        basic.pause(100)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+        basic.pause(100)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG150)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG150)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+        basic.pause(100)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG150)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG30)
+        basic.pause(100)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+        basic.pause(100)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG150)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG30)
+        basic.pause(100)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+        basic.pause(100)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG30)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG30)
+        basic.pause(100)
+    }
+	
+    /**
+     * Make robot turn left once.
+     */
+    //% group=Actions
+    //% blockId=robot_turnLeftOnce
+    //% block="Turn Left Once"
+    //% weight=98 blockGap=15
+    export function turnLeftOnce(): void {
+        if (initalised == false) {
+            I2cInit()
+        }
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG120)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG135)
+        basic.pause(100)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+        basic.pause(100)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG120)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG135)
+        basic.pause(100)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+        basic.pause(100)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG120)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG135)
+        basic.pause(100)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+        basic.pause(100)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG120)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG135)
+        basic.pause(100)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+        basic.pause(100)
+        standby()
+        basic.pause(100)
+    }
+	
+    /**
+     * Make robot turn right once.
+     */
+    //% group=Actions
+    //% blockId=robot_turnRightOnce
+    //% block="Turn Right Once"
+    //% weight=97 blockGap=15
+    export function turnRightOnce(): void {
+        if (initalised == false) {
+            I2cInit()
+        }
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG120)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG45)
+        basic.pause(100)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+        basic.pause(100)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG120)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG45)
+        basic.pause(100)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+        basic.pause(100)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG120)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG45)
+        basic.pause(100)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+        basic.pause(100)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG120)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG45)
+        basic.pause(100)
+        setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
+        basic.pause(100)
+        standBy()
+        basic.pause(100)
     }
 }
