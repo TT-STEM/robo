@@ -259,13 +259,13 @@ namespace Robo
 	}
     }
     /**
-     * Make robot standby.
+     * Make robot stand.
      */
     //% group=Actions
-    //% blockId=robot_standby
-    //% block="Standby"
+    //% blockId=robot_stand
+    //% block="Stand"
     //% weight=100 blockGap=15
-    export function standby(): void {
+    export function stand(): void {
         if (initalised == false) {
             I2cInit()
         }
@@ -280,13 +280,13 @@ namespace Robo
     }
 	
     /**
-     * Make robot step forawrd once.
+     * Make robot step forawrd.
      */
     //% group=Actions
-    //% blockId=robot_stepForwardOnce
-    //% block="Step Forward Once"
+    //% blockId=robot_stepForward
+    //% block="Step Forward"
     //% weight=99 blockGap=15
-    export function stepForwardOnce(): void {
+    export function stepForward(): void {
         if (initalised == false) {
             I2cInit()
         }
@@ -323,13 +323,13 @@ namespace Robo
     }
 	
     /**
-     * Make robot turn left once.
+     * Make robot turn left.
      */
     //% group=Actions
-    //% blockId=robot_turnLeftOnce
-    //% block="Turn Left Once"
+    //% blockId=robot_turnLeft
+    //% block="Turn Left"
     //% weight=98 blockGap=15
-    export function turnLeftOnce(): void {
+    export function turnLeft(): void {
         if (initalised == false) {
             I2cInit()
         }
@@ -353,18 +353,18 @@ namespace Robo
         basic.pause(100)
         setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
         basic.pause(100)
-        standby()
+        stand()
         basic.pause(100)
     }
 	
     /**
-     * Make robot turn right once.
+     * Make robot turn right.
      */
     //% group=Actions
-    //% blockId=robot_turnRightOnce
-    //% block="Turn Right Once"
+    //% blockId=robot_turnRight
+    //% block="Turn Right"
     //% weight=97 blockGap=15
-    export function turnRightOnce(): void {
+    export function turnRight(): void {
         if (initalised == false) {
             I2cInit()
         }
@@ -388,7 +388,7 @@ namespace Robo
         basic.pause(100)
         setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
         basic.pause(100)
-        standby()
+        stand()
         basic.pause(100)
     }
 }
