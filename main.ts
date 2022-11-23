@@ -388,7 +388,7 @@ namespace Robo
         basic.pause(100)
         setLegPartAngle(Legs.FRONT_LEFT, Parts.UPPER, Angles.DEG90)
         basic.pause(100)
-        standBy()
+        standby()
         basic.pause(100)
     }
 }
